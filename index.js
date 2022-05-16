@@ -4,10 +4,13 @@ const placesRoutes = require('./controllers/places')
 
 const app = express()
 
+app.set('view engine', 'jsx')
+app.engine('jsx', require('express-react-views').createEngine())
+
 app.use('/places', placesRoutes)
 
 app.get('/', (req, res) => {
-    res.send('Hello World!')
+    res.render('home')
 })
 
 app.get('*', (req, res) => {
