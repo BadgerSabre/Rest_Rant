@@ -10,8 +10,17 @@ router.get('/new', (req, res) => {
     res.render('places/new')
 })
 
-router.get('/:id', (res, req) => {
-    res.render('place')
+router.get('/:id', (req, res) => {
+    let id = Number(req.params.id)
+    if (isNaN(id)) {
+      res.render('error404')
+    } 
+    else if(!places[id]) {
+      res.render('error404')
+    } 
+    else {
+      res.render('place/show', { place: places[id]})
+    }
 })
 
 // POST /places
