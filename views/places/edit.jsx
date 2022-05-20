@@ -2,6 +2,7 @@ const React = require('react')
 const Def = require('../default.jsx')
 
 function EditForm(data) {
+    console.log(data)
     return (
         <Def>
             <main>
@@ -10,26 +11,26 @@ function EditForm(data) {
                     <div className='row'>
                         <div className="form-group col-sm-6">
                             <label htmlFor="name">Place Name</label>
-                            <input className="form-control" id="name" value={data.place.name} name="name" required />
+                            <input className="form-control" id="name" defaultValue={data.place.name} name="name" required />
                         </div>
                         <div className="form-group col-sm-6">
                             <label htmlFor="pic">Place Picture</label>
-                            <input className="form-control" id="pic" value={data.place.pic} name="pic" />
+                            <input className="form-control" id="pic" defaultValue={data.place.pic} name="pic" />
                         </div>
                     </div>
                     <div className='row'>
                         <div className="form-group col-sm-6">
                             <label htmlFor="city">City</label>
-                            <input className="form-control" id="city" value={data.place.city} name="city" />
+                            <input className="form-control" id="city" defaultValue={data.place.city} name="city" />
                         </div>
                         <div className="form-group col-sm-6">
                             <label htmlFor="state">State</label>
-                            <input className="form-control" id="state" value={data.place.state} name="state" />
+                            <input className="form-control" id="state" defaultValue={data.place.state} name="state" />
                         </div>
                     </div>
                     <div className="form-group">
                         <label htmlFor="cuisines">Cuisines</label>
-                        <input className="form-control" id="cuisines" value={data.place.cuisines} name="cuisines" required />
+                        <input className="form-control" id="cuisines" defaultValue={data.place.cuisines} name="cuisines" required />
                     </div>
                     <input className="btn btn-primary" type="submit" value="Edit Place" />
                 </form>
