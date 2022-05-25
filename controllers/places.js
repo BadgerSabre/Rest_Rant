@@ -1,9 +1,16 @@
 const router = require('express').Router()
-const places = require('../models/places')
+const db = require('../models')
 
 // GET /places
 router.get('/', (req, res) => {     
-    res.render('places/index', { places })
+    db.Place.find()
+    .then((places) => {
+      res.render('places/index', { places })
+    })
+    .catch(err => {
+      console.log(err)
+      res.render('error404')
+    })
 })
 
 router.get('/new', (req, res) => {
@@ -25,18 +32,14 @@ router.get('/:id', (req, res) => {
 
 // POST /places
 router.post('/', (req, res) => {
-  console.log(req.body)
-  if(!req.body.pic) {
-    req.body.pic = 'https://media-cdn.tripadvisor.com/media/photo-s/1c/2f/33/2d/healthy-bowl-frische.jpg'
-  }
-  if(!req.body.city) {
-    req.body.city = 'Anytown'
-  }
-  if(!req.body.city) {
-    req.body.city = 'USA'
-  }
-  places.push(req.body)
-  res.redirect('/places')
+  db.Place.create(req.body)
+  .then(() => {
+    res.redirect('/places')
+  })
+  .catch(err => {
+    console.log('err', err)
+    res.render('error404')
+  })
 })
 
 // Delete Place
