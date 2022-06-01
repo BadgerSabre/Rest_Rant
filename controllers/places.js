@@ -1,4 +1,5 @@
 const router = require('express').Router()
+const res = require('express/lib/response')
 const db = require('../models')
 
 // GET /places
@@ -18,8 +19,9 @@ router.get('/new', (req, res) => {
 })
 
 router.get('/:id', (req, res) => {
-    db.Place.findById(req.params.id)
+    db.Place.findById(req.params.id).populate('comments')
     .then(place => {
+      console.log(place.comments)
       res.render('places/show', { place })
     })
     .catch(err => {
@@ -90,6 +92,29 @@ router.put('/:id', (req, res) => {
     places[id] = req.body
     res.redirect(`/places/${id}`)
   }
+})
+
+router.post('/:id/comment', (req, res) => {
+  req.body.rant = req.body.rant ? true : false
+  db.Place.findById(req.params.id)
+    .then(place => {
+      db.Comment.create(req.body)
+      .then(comment => {
+        place.comments.push(comment.id)
+        place.save()
+        .then(() => {
+          res.redirect(`/places/${req.params.id}`)
+        })
+      })
+      .catch(err => {
+        console.log(err)
+        res.render('error404')
+      })
+    })
+    .catch(err => {
+      console.log(err)
+      res.render('error404')
+    })
 })
 
 
